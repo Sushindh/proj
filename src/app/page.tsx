@@ -1,14 +1,23 @@
 "use client";
 
 import React, { useState, useEffect } from 'react';
-import { Search, AlertTriangle, CheckCircle, Clock, Share2, BookOpen, TrendingUp, Users, Shield, Eye, Zap, Globe, Play } from 'lucide-react';
+import { AlertTriangle, CheckCircle, Clock, Shield, Zap, Globe, Play } from 'lucide-react';
+
+// Define the type for a node
+interface Node {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  opacity: number;
+}
 
 const NetworkBackground = () => {
-  const [nodes, setNodes] = useState([]);
+  const [nodes, setNodes] = useState<Node[]>([]); // Specify the type for nodes
 
   useEffect(() => {
     const generateNodes = () => {
-      const nodeArray = [];
+      const nodeArray: Node[] = [];
       for (let i = 0; i < 50; i++) {
         nodeArray.push({
           id: i,
@@ -64,8 +73,13 @@ const NetworkBackground = () => {
 const MisinformationDetector = () => {
   const [inputText, setInputText] = useState('');
   const [isAnalyzing, setIsAnalyzing] = useState(false);
-  const [analysis, setAnalysis] = useState(null);
-  const [activeTab, setActiveTab] = useState('detector');
+  const [analysis, setAnalysis] = useState<{
+    credibilityScore: number;
+    riskLevel: string;
+    flags: string[];
+    latency: number;
+    processed: boolean;
+  } | null>(null);
 
   // Simulated AI analysis
   const analyzeContent = async () => {
@@ -73,7 +87,7 @@ const MisinformationDetector = () => {
     await new Promise(resolve => setTimeout(resolve, 2000));
     
     const suspiciousKeywords = [
-      'doctors don\'t want you to know', 'secret cure', 'they don\'t want you to know',
+      "doctors don't want you to know", 'secret cure', "they don't want you to know",
       'mainstream media won\'t tell you', 'big pharma conspiracy', 'proven fact',
       'shocking truth', 'leaked documents', 'government coverup', 'miracle cure'
     ];
@@ -147,7 +161,6 @@ const MisinformationDetector = () => {
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
             <button 
-              onClick={() => setActiveTab('detector')}
               className="px-8 py-3 bg-white text-black font-medium rounded-full hover:bg-gray-100 transition-colors"
             >
               Post for verification
@@ -350,6 +363,6 @@ const MisinformationDetector = () => {
       </div>
     </div>
   );
-}
+};
 
 export default MisinformationDetector;
