@@ -350,6 +350,6 @@ const MisinformationDetector = () => {
       </div>
     </div>
   );
-};
+}
 
 export default MisinformationDetector;
